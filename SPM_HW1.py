@@ -90,18 +90,39 @@ class Manager:
         if n==5:                                                                        #sort data by price from low to high
             data = sorted(data, key=lambda x: x[2])
         print("Sno. Date  Exp-Type Amount Category\n")
-
         for i in range (0,len(data)):
           print(i+1, data[i][0],data[i][1],data[i][2],data[i][3])
         #print(data)
         file.close()
+  def analysis(self):
+      with open('data2.csv', 'r', newline='') as file:
+        csvFile=csv.reader(file)
+        data =list(csvFile)
+        mean=0
+        s=0
+        for i in range(1,len(data)):
+            s+=1
+            mean+=int(data[i][2])
+        mean=(mean/s)
+        data.pop(0)
+        data = sorted(data, key=lambda x: x[2], reverse ="True")
+        minimum=data[0][2]
+        data = sorted(data, key=lambda x: x[2])
+        maximum=data[0][2]
+        
+        print("Mean value of the expenses: ", mean)
+        print("Mininum expense ", minimum)
+        print("Maximum expense ", maximum)
+        file.close()
+        
+      
         
 class Menu:
     def mainmenu(self):
         choice=0
         m1 = Manager()
-        while(choice!=7):
-            choice=int(input("\nPick an option\n\n1. View bills\n2.Add a bill\n3.Change an existing bill\n4.Delete a bill\n\nDisplay and filter by:\n5.Amount (low to high)\n6.Amount(high to low)\n\n7.Exit\n"))
+        while(choice!=8):
+            choice=int(input("\nPick an option\n\n1. View bills\n2.Add a bill\n3.Change an existing bill\n4.Delete a bill\n\nDisplay and filter by:\n5.Amount (low to high)\n6.Amount(high to low)\n\n7.Analysis\n8.Exit\n"))
             if choice==1:
                 
                 m1.read()
@@ -132,6 +153,8 @@ class Menu:
             elif choice==5 or choice == 6:
                 m1.sort(choice)
             elif choice==7:
+                m1.analysis()
+            elif choice==8:
                 print("See you later\n")
                 exit
             else:
